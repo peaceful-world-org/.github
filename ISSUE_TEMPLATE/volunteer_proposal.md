@@ -1,7 +1,6 @@
 ---
 name: Volunteer contribution proposal
 about: Offer a concrete contribution to Peaceful World
-labels: volunteer
 ---
 
 ## What would you like to contribute?
