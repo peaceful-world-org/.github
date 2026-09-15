@@ -60,6 +60,14 @@ We welcome contributions in:
 
 Start with [Volunteer with Peaceful World](../VOLUNTEER.md).
 
+### Open volunteer tasks
+
+- [Accessibility review of 5 Practice](https://github.com/peaceful-world-org/.github/issues/4)
+- [Mobile QA pass for 5 Practice](https://github.com/peaceful-world-org/.github/issues/5)
+- [Identify candidate datasets for Atlas of Peace](https://github.com/peaceful-world-org/.github/issues/6)
+- [Review one localization of 5 Practice](https://github.com/peaceful-world-org/.github/issues/7)
+- [Browse all public issues](https://github.com/peaceful-world-org/.github/issues)
+
 For security issues, please use our [responsible disclosure policy](../SECURITY.md) rather than a public issue.
 
 ---
