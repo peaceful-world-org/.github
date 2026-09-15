@@ -1,0 +1,119 @@
+name: Sync Public Build Board
+
+on:
+  issues:
+    types: [opened, reopened, closed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+
+concurrency:
+  group: public-build-board-${{ github.event.issue.number || github.run_id }}
+  cancel-in-progress: false
+
+env:
+  PROJECT_OWNER: peaceful-world-org
+  PROJECT_NUMBER: "1"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
+    steps:
+      - name: Check Projects token
+        id: token
+        shell: bash
+        run: |
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "PROJECTS_TOKEN is not configured yet; skipping board sync." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Sync changed issue
+        if: steps.token.outputs.configured == 'true' && github.event_name == 'issues'
+        shell: bash
+        env:
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          ISSUE_ACTION: ${{ github.event.action }}
+        run: |
+          set -euo pipefail
+
+          project_id="$(gh project view "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json --jq '.id')"
+          fields_json="$(gh project field-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json)"
+          status_field_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .id')"
+          todo_option_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .options[] | select(.name == "Todo") | .id')"
+          done_option_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .options[] | select(.name == "Done") | .id')"
+
+          if [ -z "$status_field_id" ] || [ "$status_field_id" = "null" ] || [ -z "$todo_option_id" ] || [ "$todo_option_id" = "null" ] || [ -z "$done_option_id" ] || [ "$done_option_id" = "null" ]; then
+            echo "Could not resolve Status/Todo/Done in Project #$PROJECT_NUMBER." >&2
+            exit 1
+          fi
+
+          item_id="$(gh project item-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --limit 1000 --format json --jq ".items[] | select(.content.url == \"$ISSUE_URL\") | .id" | head -n 1 || true)"
+          if [ -z "$item_id" ]; then
+            item_id="$(gh project item-add "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --url "$ISSUE_URL" --format json --jq '.id')"
+          fi
+
+          if [ "$ISSUE_ACTION" = "closed" ]; then
+            option_id="$done_option_id"
+            status_name="Done"
+          else
+            option_id="$todo_option_id"
+            status_name="Todo"
+          fi
+
+          gh project item-edit \
+            --id "$item_id" \
+            --project-id "$project_id" \
+            --field-id "$status_field_id" \
+            --single-select-option-id "$option_id"
+
+          echo "Synced $ISSUE_URL to $status_name." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Backfill all currently open issues
+        if: steps.token.outputs.configured == 'true' && github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          project_id="$(gh project view "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json --jq '.id')"
+          fields_json="$(gh project field-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json)"
+          status_field_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .id')"
+          todo_option_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .options[] | select(.name == "Todo") | .id')"
+
+          if [ -z "$status_field_id" ] || [ "$status_field_id" = "null" ] || [ -z "$todo_option_id" ] || [ "$todo_option_id" = "null" ]; then
+            echo "Could not resolve Status/Todo in Project #$PROJECT_NUMBER." >&2
+            exit 1
+          fi
+
+          added=0
+          existing=0
+
+          while IFS= read -r issue_url; do
+            [ -n "$issue_url" ] || continue
+            item_id="$(gh project item-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --limit 1000 --format json --jq ".items[] | select(.content.url == \"$issue_url\") | .id" | head -n 1 || true)"
+
+            if [ -n "$item_id" ]; then
+              existing=$((existing + 1))
+              continue
+            fi
+
+            item_id="$(gh project item-add "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --url "$issue_url" --format json --jq '.id')"
+            gh project item-edit \
+              --id "$item_id" \
+              --project-id "$project_id" \
+              --field-id "$status_field_id" \
+              --single-select-option-id "$todo_option_id"
+            added=$((added + 1))
+          done < <(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 500 --json url --jq '.[].url')
+
+          {
+            echo "Backfill complete."
+            echo "- Added to Todo: $added"
+            echo "- Already present and left unchanged: $existing"
+          } >> "$GITHUB_STEP_SUMMARY"
