@@ -6,26 +6,26 @@ Peaceful World is an international nonprofit association building open, multilin
 
 We use GitHub as a public window into how that work is built: what we are working on, what is next, where help is useful, and how people can contribute.
 
-[Website](https://peaceful-world.org) · [Public roadmap](../ROADMAP.md) · [Projects](../PROJECTS.md) · [Volunteer](../VOLUNTEER.md) · [Transparency](../TRANSPARENCY.md) · [Support](https://peaceful-world.org/help)
+[Website](https://peaceful-world.org) · [Public roadmap](../ROADMAP.md) · [Open work](https://github.com/peaceful-world-org/.github/issues) · [Projects](../PROJECTS.md) · [Volunteer](../VOLUNTEER.md) · [Transparency](../TRANSPARENCY.md) · [Support](https://peaceful-world.org/help)
 
 ---
 
 ## What we are building
 
 ### 5 Practice
-A five-minute secular practice for training more peaceful responses. Current work includes product stability, localization, analytics, accessibility and mobile distribution.
+A five-minute secular practice for training more peaceful responses. Current work includes product stability, localization, analytics, accessibility and mobile distribution. [Follow the current phase →](https://github.com/peaceful-world-org/.github/issues/10)
 
 ### Peace literacy
-Research, articles and educational architecture connecting nonviolence, dignity, dehumanization, escalation, dialogue and responsible action.
+Research, articles and educational architecture connecting nonviolence, dignity, dehumanization, escalation, dialogue and responsible action. [Follow the publishing work →](https://github.com/peaceful-world-org/.github/issues/16)
 
 ### 42 Lessons
-A structured learning path designed to turn peace from an abstract value into something people can study and practise.
+A structured learning path designed to turn peace from an abstract value into something people can study and practise. [Follow preparation and publishing →](https://github.com/peaceful-world-org/.github/issues/11)
 
 ### Atlas of Peace
-An evolving effort to organize peace-related knowledge, resources and evidence in a form that is useful across cultures and languages.
+An evolving effort to organize peace-related knowledge, resources and evidence in a form that is useful across cultures and languages. [Follow discovery and prototyping →](https://github.com/peaceful-world-org/.github/issues/12)
 
 ### Public-interest data tools
-Experiments such as True Cost of War that make difficult human and social realities easier to examine without reducing people to abstractions.
+Experiments such as True Cost of War that make difficult human and social realities easier to examine without reducing people to abstractions. [Follow the next True Cost of War phase →](https://github.com/peaceful-world-org/.github/issues/14)
 
 ---
 
@@ -33,14 +33,14 @@ Experiments such as True Cost of War that make difficult human and social realit
 
 | Area | Status | What is happening |
 | --- | --- | --- |
-| 5 Practice | **Building** | Product hardening, localization, analytics, Android release work |
-| Peaceful World website | **Building** | GitHub-backed pages, public infrastructure, transparency |
-| Peace literacy research | **Active** | Research, writing and multilingual publishing |
-| 42 Lessons | **Preparing** | Editorial and publishing architecture |
-| Atlas of Peace | **Exploring** | Scope, data model and contribution paths |
-| Public GitHub | **Building in public** | Roadmap, volunteer tasks and open collaboration |
+| [5 Practice](https://github.com/peaceful-world-org/.github/issues/10) | **Building** | Product hardening, localization, analytics, Android release work |
+| [Peaceful World website](https://github.com/peaceful-world-org/.github/issues/13) | **Building** | GitHub-backed pages, public infrastructure, transparency |
+| [Peace literacy research](https://github.com/peaceful-world-org/.github/issues/16) | **Active** | Research, writing and multilingual publishing |
+| [42 Lessons](https://github.com/peaceful-world-org/.github/issues/11) | **Preparing** | Editorial and publishing architecture |
+| [Atlas of Peace](https://github.com/peaceful-world-org/.github/issues/12) | **Exploring** | Scope, data model and contribution paths |
+| [Public GitHub](https://github.com/peaceful-world-org/.github/issues/15) | **Building in public** | Roadmap, volunteer tasks and open collaboration |
 
-See the living [public roadmap](../ROADMAP.md).
+See the living [public roadmap](../ROADMAP.md) and our [public work model](../PUBLIC_WORK_MODEL.md).
 
 ---
 
