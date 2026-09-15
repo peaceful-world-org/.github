@@ -2,11 +2,13 @@
 
 **Peace education for everyone.**
 
-Peaceful World is an international nonprofit association building open, multilingual tools and education for nonviolence, human dignity, de-escalation and peace literacy.
+Peaceful World is an international nonprofit association building multilingual tools, research and education for nonviolence, human dignity, de-escalation and peace literacy.
 
-We use GitHub as a public window into how that work is built: what we are working on, what is next, where help is useful, and how people can contribute.
+GitHub is our public working window: a place to see what we are building, what is next, where outside help is useful, and how to support the work.
 
-[Website](https://peaceful-world.org) · [Public roadmap](../ROADMAP.md) · [Open work](https://github.com/peaceful-world-org/.github/issues) · [Projects](../PROJECTS.md) · [Volunteer](../VOLUNTEER.md) · [Transparency](../TRANSPARENCY.md) · [Support](https://peaceful-world.org/help)
+**See how we build:** [Public roadmap](../ROADMAP.md) · [Public Build Board](https://github.com/orgs/peaceful-world-org/projects/1) · [Open work](https://github.com/peaceful-world-org/.github/issues) · [Volunteer](../VOLUNTEER.md) · [Support](https://peaceful-world.org/help)
+
+[Website](https://peaceful-world.org) · [Projects](../PROJECTS.md) · [Transparency](../TRANSPARENCY.md) · [How public work is organized](../PUBLIC_WORK_MODEL.md)
 
 ---
 
@@ -40,7 +42,7 @@ Experiments such as True Cost of War that make difficult human and social realit
 | [Atlas of Peace](https://github.com/peaceful-world-org/.github/issues/12) | **Exploring** | Scope, data model and contribution paths |
 | [Public GitHub](https://github.com/peaceful-world-org/.github/issues/15) | **Building in public** | Roadmap, volunteer tasks and open collaboration |
 
-See the living [public roadmap](../ROADMAP.md) and our [public work model](../PUBLIC_WORK_MODEL.md).
+The [roadmap](../ROADMAP.md) explains direction; the [Build Board](https://github.com/orgs/peaceful-world-org/projects/1) is the visual work layer; [public Issues](https://github.com/peaceful-world-org/.github/issues) hold concrete work.
 
 ---
 
@@ -48,37 +50,27 @@ See the living [public roadmap](../ROADMAP.md) and our [public work model](../PU
 
 You do not need to be a software engineer.
 
-We welcome contributions in:
-
-- software and web development;
-- UX, design and accessibility;
-- research and source verification;
-- data work and visualization;
-- translation and localization;
-- editing and documentation;
-- quality assurance and testing.
+We welcome contributions in software and web development, UX and accessibility, research and source verification, data and visualization, translation and localization, editing and documentation, and QA/testing.
 
 Start with [Volunteer with Peaceful World](../VOLUNTEER.md).
 
-### Open volunteer tasks
+### Good places to start
 
+- [Mobile QA pass for 5 Practice](https://github.com/peaceful-world-org/.github/issues/5) — good first issue
+- [Review one localization of 5 Practice](https://github.com/peaceful-world-org/.github/issues/7) — good first issue
 - [Accessibility review of 5 Practice](https://github.com/peaceful-world-org/.github/issues/4)
-- [Mobile QA pass for 5 Practice](https://github.com/peaceful-world-org/.github/issues/5)
 - [Identify candidate datasets for Atlas of Peace](https://github.com/peaceful-world-org/.github/issues/6)
-- [Review one localization of 5 Practice](https://github.com/peaceful-world-org/.github/issues/7)
 - [Browse all public issues](https://github.com/peaceful-world-org/.github/issues)
 
-For security issues, please use our [responsible disclosure policy](../SECURITY.md) rather than a public issue.
+For security issues, use our [responsible disclosure policy](../SECURITY.md) rather than a public issue.
 
 ---
 
 ## Support the work
 
-Peaceful World is a nonprofit. If our work is useful to you, you can help fund research, educational products, translations and public infrastructure.
+Peaceful World is a nonprofit. Financial support helps fund research, educational products, translations and public infrastructure.
 
 **[Support Peaceful World →](https://peaceful-world.org/help)**
-
-GitHub's funding links also point to the same official support page.
 
 ---
 
@@ -86,9 +78,7 @@ GitHub's funding links also point to the same official support page.
 
 **Research → create → review → translate → publish → learn → improve.**
 
-Some repositories remain private while products are in active development. We do not treat transparency as publishing every internal file; we treat it as making our goals, methods, public work, progress and ways to participate understandable.
-
-Our public GitHub layer will grow as projects become ready for outside collaboration.
+Some implementation repositories remain private during active development. We do not define transparency as publishing every internal file. We aim to make our goals, methods, public work, progress, contribution paths and support options understandable.
 
 ---
 
