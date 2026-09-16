@@ -1,2 +1,2 @@
 Candidate_ID,Completed_Date,Source_Issue,Title,Issue_URL,Prior_Board_Status,Publish_Status,Review_Action,Last_Updated
-GH-DONE-15,2026-09-16,#15,"Public initiative: build Peaceful World's public GitHub layer",https://github.com/peaceful-world-org/.github/issues/15,qa,REVIEW,REVIEW_REQUIRED,2026-09-16
+"\"GH-DONE-15\",\"2026-09-16\",\"#15\",\"Public initiative: build Peaceful World's public GitHub layer\",\"https://github.com/peaceful-world-org/.github/issues/15\",\"qa\",\"REVIEW\",\"REVIEW_REQUIRED\",\"2026-09-16\""
