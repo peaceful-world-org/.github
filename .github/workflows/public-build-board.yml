@@ -2,7 +2,7 @@ name: Sync Public Build Board
 
 on:
   issues:
-    types: [opened, reopened, closed]
+    types: [opened, reopened, closed, edited]
   workflow_dispatch:
 
 permissions:
@@ -40,19 +40,25 @@ jobs:
         env:
           ISSUE_URL: ${{ github.event.issue.html_url }}
           ISSUE_ACTION: ${{ github.event.action }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
           set -euo pipefail
 
           project_id="$(gh project view "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json --jq '.id')"
           fields_json="$(gh project field-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json)"
           status_field_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .id')"
+          backlog_option_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .options[] | select(.name == "Backlog") | .id')"
           todo_option_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .options[] | select(.name == "Todo") | .id')"
+          in_progress_option_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .options[] | select(.name == "In Progress") | .id')"
+          qa_option_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .options[] | select(.name == "QA") | .id')"
           done_option_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .options[] | select(.name == "Done") | .id')"
 
-          if [ -z "$status_field_id" ] || [ "$status_field_id" = "null" ] || [ -z "$todo_option_id" ] || [ "$todo_option_id" = "null" ] || [ -z "$done_option_id" ] || [ "$done_option_id" = "null" ]; then
-            echo "Could not resolve Status/Todo/Done in Project #$PROJECT_NUMBER." >&2
-            exit 1
-          fi
+          for value in "$status_field_id" "$backlog_option_id" "$todo_option_id" "$in_progress_option_id" "$qa_option_id" "$done_option_id"; do
+            if [ -z "$value" ] || [ "$value" = "null" ]; then
+              echo "Could not resolve all required board Status options." >&2
+              exit 1
+            fi
+          done
 
           item_id="$(gh project item-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --limit 1000 --format json --jq ".items[] | select(.content.url == \"$ISSUE_URL\") | .id" | head -n 1 || true)"
           if [ -z "$item_id" ]; then
@@ -62,9 +68,31 @@ jobs:
           if [ "$ISSUE_ACTION" = "closed" ]; then
             option_id="$done_option_id"
             status_name="Done"
-          else
+          elif [ "$ISSUE_ACTION" = "reopened" ]; then
             option_id="$todo_option_id"
             status_name="Todo"
+          else
+            marker="$(printf '%s' "${ISSUE_BODY:-}" | grep -oE '<!--[[:space:]]*board-status:[[:space:]]*(backlog|todo|in-progress|qa)[[:space:]]*-->' | tail -n 1 || true)"
+            marker_status="$(printf '%s' "$marker" | sed -E 's/.*board-status:[[:space:]]*([^[:space:]]+).*/\1/' || true)"
+
+            case "$marker_status" in
+              backlog)
+                option_id="$backlog_option_id"
+                status_name="Backlog"
+                ;;
+              in-progress)
+                option_id="$in_progress_option_id"
+                status_name="In Progress"
+                ;;
+              qa)
+                option_id="$qa_option_id"
+                status_name="QA"
+                ;;
+              todo|*)
+                option_id="$todo_option_id"
+                status_name="Todo"
+                ;;
+            esac
           fi
 
           gh project item-edit \
