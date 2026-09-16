@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   issues: read
 
 concurrency:
@@ -184,3 +184,72 @@ jobs:
             echo "- Approved Issues synced to their declared status: $synced"
             echo "- Untriaged Issues ignored: $skipped"
           } >> "$GITHUB_STEP_SUMMARY"
+
+  ledger_candidates:
+    name: Refresh Public Ledger review inbox
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'issues'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: read
+    steps:
+      - name: Checkout public operations repo
+        uses: actions/checkout@v4
+
+      - name: Export completed approved Issues as REVIEW candidates
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          out="public/ledger-candidates.csv"
+          printf '%s\n' 'Candidate_ID,Completed_Date,Source_Issue,Title,Issue_URL,Prior_Board_Status,Publish_Status,Review_Action,Last_Updated' > "$out"
+          today="$(date -u +%F)"
+
+          while IFS= read -r issue_json; do
+            [ -n "$issue_json" ] || continue
+            body="$(printf '%s' "$issue_json" | jq -r '.body // ""')"
+            marker="$(printf '%s' "$body" | grep -oE '<!--[[:space:]]*board-status:[[:space:]]*(backlog|todo|in-progress|qa)[[:space:]]*-->' | tail -n 1 || true)"
+            marker_status="$(printf '%s' "$marker" | sed -E 's/.*board-status:[[:space:]]*([^[:space:]]+).*/\1/' || true)"
+            state_reason="$(printf '%s' "$issue_json" | jq -r '.stateReason // ""')"
+
+            [ -n "$marker_status" ] || continue
+            [ "$state_reason" = "COMPLETED" ] || continue
+
+            number="$(printf '%s' "$issue_json" | jq -r '.number')"
+            title="$(printf '%s' "$issue_json" | jq -r '.title')"
+            url="$(printf '%s' "$issue_json" | jq -r '.url')"
+            closed_date="$(printf '%s' "$issue_json" | jq -r '.closedAt // "" | split("T")[0]')"
+            candidate_id="GH-DONE-$number"
+            source_issue="#$number"
+
+            jq -Rn \
+              --arg candidate_id "$candidate_id" \
+              --arg completed_date "$closed_date" \
+              --arg source_issue "$source_issue" \
+              --arg title "$title" \
+              --arg url "$url" \
+              --arg prior_status "$marker_status" \
+              --arg publish_status "REVIEW" \
+              --arg review_action "REVIEW_REQUIRED" \
+              --arg last_updated "$today" \
+              '[$candidate_id,$completed_date,$source_issue,$title,$url,$prior_status,$publish_status,$review_action,$last_updated] | @csv' >> "$out"
+          done < <(gh issue list --repo "$GITHUB_REPOSITORY" --state closed --limit 500 --json number,title,body,closedAt,url,stateReason --jq '.[] | @json')
+
+          echo "Generated $(($(wc -l < "$out") - 1)) Public Ledger REVIEW candidate(s)." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit candidate inbox when it changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "peaceful-world-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add public/ledger-candidates.csv
+          if git diff --cached --quiet; then
+            echo "Public Ledger candidate inbox unchanged." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git commit -m "Refresh Public Ledger review candidates"
+          git push
+          echo "Published refreshed REVIEW candidate inbox for the Public Ledger." >> "$GITHUB_STEP_SUMMARY"
