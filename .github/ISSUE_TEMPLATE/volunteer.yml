@@ -1,0 +1,56 @@
+name: Offer a contribution
+description: Propose a concrete, bounded way you would like to help Peaceful World.
+title: "[Volunteer] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for offering to help. Small, finished contributions are often more useful than broad commitments.
+
+        Submitting this form does **not** automatically add the proposal to our Public Build Board. We review public submissions first and promote suitable work only after it is accepted.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Contribution area
+      description: Choose the closest fit.
+      options:
+        - Software / web
+        - Accessibility / QA
+        - Research / data
+        - Translation / localization
+        - Editing / documentation
+        - Design / UX
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: contribution
+    attributes:
+      label: What would you like to contribute?
+      description: Describe one concrete outcome you could help produce.
+      placeholder: "Example: I can review the Russian localization of one 5 Practice flow and return a short list of corrections."
+    validations:
+      required: true
+
+  - type: textarea
+    id: relevant_experience
+    attributes:
+      label: Relevant experience or context
+      description: Optional. Links to prior work are welcome if useful.
+
+  - type: input
+    id: availability
+    attributes:
+      label: Approximate availability
+      description: Optional. A rough estimate is enough.
+      placeholder: "Example: 2–3 hours this week"
+
+  - type: checkboxes
+    id: public
+    attributes:
+      label: Public discussion
+      options:
+        - label: I understand this is a public GitHub issue and will not include private or sensitive information.
+          required: true
