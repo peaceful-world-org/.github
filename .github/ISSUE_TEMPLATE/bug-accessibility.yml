@@ -1,0 +1,70 @@
+name: Report a bug or accessibility issue
+description: Tell us about a public-facing problem in a Peaceful World product or page.
+title: "[Bug / accessibility] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping us improve Peaceful World. Please describe only information that is safe to discuss publicly.
+
+        This submission starts in triage and is **not** automatically added to the Public Build Board. If we accept it as planned work, it will be promoted into the Board separately.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type of issue
+      options:
+        - Bug
+        - Accessibility
+        - Performance
+        - Localization / language
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Page, product, or URL
+      placeholder: "Example: https://peaceful-world.org/projects"
+    validations:
+      required: true
+
+  - type: textarea
+    id: observed
+    attributes:
+      label: What happened?
+      description: Describe what you observed and what you expected instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Optional if the problem is not consistently reproducible.
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. Observe ...
+
+  - type: input
+    id: environment
+    attributes:
+      label: Device / browser / assistive technology
+      description: Optional, but useful for accessibility and rendering issues.
+      placeholder: "Example: Android 16, Chrome 153, TalkBack"
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Who is affected, or what does this prevent someone from doing?
+
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: This report contains no passwords, private personal data, exposed credentials, or other sensitive security information.
+          required: true

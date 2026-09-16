@@ -10,7 +10,9 @@ You do **not** need to be a developer, and you do not need to make a long-term c
 - [Help wanted](https://github.com/peaceful-world-org/.github/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 - [Browse all public work](https://github.com/peaceful-world-org/.github/issues)
 - [Public Build Board](https://github.com/orgs/peaceful-world-org/projects/1)
-- [Offer a concrete contribution](https://github.com/peaceful-world-org/.github/issues/new?template=volunteer_proposal.md)
+- [Offer a concrete contribution](https://github.com/peaceful-world-org/.github/issues/new?template=volunteer.yml)
+
+Public submissions begin in **triage**. They do not automatically become roadmap commitments or enter the Public Build Board. We promote suitable proposals into tracked work only after review.
 
 ## Where help is useful
 
@@ -47,7 +49,7 @@ You do **not** need to be a developer, and you do not need to make a long-term c
 2. Pick a public Issue marked `help wanted` or `good first issue`.
 3. If a task interests you, comment before starting substantial work so effort is not duplicated.
 4. Keep the first contribution small and reviewable.
-5. If none of the current tasks fit your skills, [propose a concrete contribution](https://github.com/peaceful-world-org/.github/issues/new?template=volunteer_proposal.md).
+5. If none of the current tasks fit your skills, [propose a concrete contribution](https://github.com/peaceful-world-org/.github/issues/new?template=volunteer.yml).
 6. Follow [CONTRIBUTING.md](CONTRIBUTING.md) and our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## What a good volunteer task looks like

@@ -1,0 +1,63 @@
+name: Suggest a research source or dataset
+description: Share a source, dataset, directory, or research lead that may be useful to Peaceful World.
+title: "[Research / source] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping strengthen the evidence base behind Peaceful World.
+
+        Suggestions start in triage. They do **not** automatically become roadmap commitments or appear on the Public Build Board.
+
+  - type: dropdown
+    id: source_type
+    attributes:
+      label: Type of source
+      options:
+        - Academic paper
+        - Report
+        - Dataset
+        - Directory / database
+        - Organization / institution
+        - Book or chapter
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: name
+    attributes:
+      label: Source name
+      placeholder: "Title, dataset name, or organization"
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: URL or DOI
+      placeholder: "https://..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: relevance
+    attributes:
+      label: Why may this be useful?
+      description: Explain the connection to peace education, nonviolence, conflict prevention, dialogue, data, or another Peaceful World initiative.
+    validations:
+      required: true
+
+  - type: textarea
+    id: limitations
+    attributes:
+      label: Known limitations or caveats
+      description: Optional. Note geographic limits, methodology concerns, licensing, bias risks, outdated coverage, or anything else we should know.
+
+  - type: checkboxes
+    id: public
+    attributes:
+      label: Public discussion
+      options:
+        - label: I understand this is a public GitHub issue and will not include private or sensitive information.
+          required: true

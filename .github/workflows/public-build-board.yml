@@ -61,6 +61,22 @@ jobs:
           done
 
           item_id="$(gh project item-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --limit 1000 --format json --jq ".items[] | select(.content.url == \"$ISSUE_URL\") | .id" | head -n 1 || true)"
+          marker="$(printf '%s' "${ISSUE_BODY:-}" | grep -oE '<!--[[:space:]]*board-status:[[:space:]]*(backlog|todo|in-progress|qa)[[:space:]]*-->' | tail -n 1 || true)"
+          marker_status="$(printf '%s' "$marker" | sed -E 's/.*board-status:[[:space:]]*([^[:space:]]+).*/\1/' || true)"
+
+          # Public submissions are triage-only by default. An Issue becomes Board work only
+          # after we add an explicit board-status marker, or if it is already on the Board.
+          if [ -z "$marker_status" ] && [ -z "$item_id" ]; then
+            echo "Skipped untriaged Issue $ISSUE_URL; it has no board-status marker and is not already on the Board." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # Ordinary edits to an already tracked Issue must not reset its current Board status.
+          if [ "$ISSUE_ACTION" != "closed" ] && [ "$ISSUE_ACTION" != "reopened" ] && [ -z "$marker_status" ]; then
+            echo "Issue $ISSUE_URL is already tracked; no board-status marker was supplied, so its Board status was left unchanged." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
           if [ -z "$item_id" ]; then
             item_id="$(gh project item-add "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --url "$ISSUE_URL" --format json --jq '.id')"
           fi
@@ -68,13 +84,10 @@ jobs:
           if [ "$ISSUE_ACTION" = "closed" ]; then
             option_id="$done_option_id"
             status_name="Done"
-          elif [ "$ISSUE_ACTION" = "reopened" ]; then
+          elif [ "$ISSUE_ACTION" = "reopened" ] && [ -z "$marker_status" ]; then
             option_id="$todo_option_id"
             status_name="Todo"
           else
-            marker="$(printf '%s' "${ISSUE_BODY:-}" | grep -oE '<!--[[:space:]]*board-status:[[:space:]]*(backlog|todo|in-progress|qa)[[:space:]]*-->' | tail -n 1 || true)"
-            marker_status="$(printf '%s' "$marker" | sed -E 's/.*board-status:[[:space:]]*([^[:space:]]+).*/\1/' || true)"
-
             case "$marker_status" in
               backlog)
                 option_id="$backlog_option_id"
@@ -88,7 +101,11 @@ jobs:
                 option_id="$qa_option_id"
                 status_name="QA"
                 ;;
-              todo|*)
+              todo)
+                option_id="$todo_option_id"
+                status_name="Todo"
+                ;;
+              *)
                 option_id="$todo_option_id"
                 status_name="Todo"
                 ;;
@@ -103,7 +120,7 @@ jobs:
 
           echo "Synced $ISSUE_URL to $status_name." >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Backfill all currently open issues
+      - name: Backfill approved open issues
         if: steps.token.outputs.configured == 'true' && github.event_name == 'workflow_dispatch'
         shell: bash
         run: |
@@ -112,36 +129,58 @@ jobs:
           project_id="$(gh project view "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json --jq '.id')"
           fields_json="$(gh project field-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json)"
           status_field_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .id')"
+          backlog_option_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .options[] | select(.name == "Backlog") | .id')"
           todo_option_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .options[] | select(.name == "Todo") | .id')"
+          in_progress_option_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .options[] | select(.name == "In Progress") | .id')"
+          qa_option_id="$(printf '%s' "$fields_json" | jq -r '.fields[] | select(.name == "Status") | .options[] | select(.name == "QA") | .id')"
 
-          if [ -z "$status_field_id" ] || [ "$status_field_id" = "null" ] || [ -z "$todo_option_id" ] || [ "$todo_option_id" = "null" ]; then
-            echo "Could not resolve Status/Todo in Project #$PROJECT_NUMBER." >&2
-            exit 1
-          fi
+          for value in "$status_field_id" "$backlog_option_id" "$todo_option_id" "$in_progress_option_id" "$qa_option_id"; do
+            if [ -z "$value" ] || [ "$value" = "null" ]; then
+              echo "Could not resolve all required Board Status options." >&2
+              exit 1
+            fi
+          done
 
           added=0
-          existing=0
+          synced=0
+          skipped=0
 
-          while IFS= read -r issue_url; do
-            [ -n "$issue_url" ] || continue
+          while IFS= read -r issue_json; do
+            [ -n "$issue_json" ] || continue
+            issue_url="$(printf '%s' "$issue_json" | jq -r '.url')"
+            issue_body="$(printf '%s' "$issue_json" | jq -r '.body // ""')"
+            marker="$(printf '%s' "$issue_body" | grep -oE '<!--[[:space:]]*board-status:[[:space:]]*(backlog|todo|in-progress|qa)[[:space:]]*-->' | tail -n 1 || true)"
+            marker_status="$(printf '%s' "$marker" | sed -E 's/.*board-status:[[:space:]]*([^[:space:]]+).*/\1/' || true)"
             item_id="$(gh project item-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --limit 1000 --format json --jq ".items[] | select(.content.url == \"$issue_url\") | .id" | head -n 1 || true)"
 
-            if [ -n "$item_id" ]; then
-              existing=$((existing + 1))
+            if [ -z "$marker_status" ]; then
+              skipped=$((skipped + 1))
               continue
             fi
 
-            item_id="$(gh project item-add "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --url "$issue_url" --format json --jq '.id')"
+            if [ -z "$item_id" ]; then
+              item_id="$(gh project item-add "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --url "$issue_url" --format json --jq '.id')"
+              added=$((added + 1))
+            fi
+
+            case "$marker_status" in
+              backlog) option_id="$backlog_option_id" ;;
+              in-progress) option_id="$in_progress_option_id" ;;
+              qa) option_id="$qa_option_id" ;;
+              todo|*) option_id="$todo_option_id" ;;
+            esac
+
             gh project item-edit \
               --id "$item_id" \
               --project-id "$project_id" \
               --field-id "$status_field_id" \
-              --single-select-option-id "$todo_option_id"
-            added=$((added + 1))
-          done < <(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 500 --json url --jq '.[].url')
+              --single-select-option-id "$option_id"
+            synced=$((synced + 1))
+          done < <(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 500 --json url,body --jq '.[] | @json')
 
           {
-            echo "Backfill complete."
-            echo "- Added to Todo: $added"
-            echo "- Already present and left unchanged: $existing"
+            echo "Approved-work backfill complete."
+            echo "- Newly added to Board: $added"
+            echo "- Approved Issues synced to their declared status: $synced"
+            echo "- Untriaged Issues ignored: $skipped"
           } >> "$GITHUB_STEP_SUMMARY"
