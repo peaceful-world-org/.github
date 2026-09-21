@@ -46,7 +46,7 @@ A public-interest data and communication project focused on making the costs of 
 
 The public home of Peaceful World and an increasingly modular set of GitHub-backed pages and interfaces.
 
-**Current focus:** maintainability, clarity, performance and public transparency.
+**Current focus:** stabilizing the new Home and GitHub-backed Mission, Projects, Impact and History layers; bilingual routing; automated production QA; maintainability, accessibility, performance and public transparency.
 
 **Ways to help:** frontend review, accessibility, QA, performance and documentation.
 

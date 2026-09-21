@@ -18,9 +18,10 @@ The roadmap shows **direction**. Public GitHub Issues show **concrete work**. Ou
 ### Peaceful World website and infrastructure
 [Public tracking issue #13](https://github.com/peaceful-world-org/.github/issues/13)
 
-- move selected public-facing components to GitHub-backed infrastructure;
-- improve maintainability, performance and transparency;
-- reduce fragile manual publishing steps.
+- stabilize the new GitHub-backed Home and core public page architecture;
+- keep bilingual routing, SEO metadata and post-release QA reliable;
+- improve maintainability, accessibility, performance and transparency;
+- reduce fragile manual publishing steps while preserving the public Tilda experience.
 
 ### Public GitHub and open collaboration
 [Public tracking issue #15](https://github.com/peaceful-world-org/.github/issues/15)

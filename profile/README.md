@@ -36,7 +36,7 @@ Experiments such as True Cost of War that make difficult human and social realit
 | Area | Status | What is happening |
 | --- | --- | --- |
 | [5 Practice](https://github.com/peaceful-world-org/.github/issues/10) | **Building** | Product hardening, localization, analytics, Android release work |
-| [Peaceful World website](https://github.com/peaceful-world-org/.github/issues/13) | **Building** | GitHub-backed pages, public infrastructure, transparency |
+| [Peaceful World website](https://github.com/peaceful-world-org/.github/issues/13) | **Stabilizing** | New Home and core page architecture live; bilingual routing, SEO and automated production QA |
 | [Peace literacy research](https://github.com/peaceful-world-org/.github/issues/16) | **Active** | Research, writing and multilingual publishing |
 | [42 Lessons](https://github.com/peaceful-world-org/.github/issues/11) | **Preparing** | Editorial and publishing architecture |
 | [Atlas of Peace](https://github.com/peaceful-world-org/.github/issues/12) | **Exploring** | Scope, data model and contribution paths |
