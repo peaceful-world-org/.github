@@ -1,0 +1,70 @@
+name: Reusable web PR check
+
+on:
+  workflow_call:
+    inputs:
+      scan_root:
+        description: Repository path containing the static web surface.
+        required: false
+        type: string
+        default: "."
+      mode:
+        description: advisory, baseline, or strict.
+        required: false
+        type: string
+        default: "baseline"
+      changed_only:
+        description: Audit only HTML changed by the pull request when possible.
+        required: false
+        type: boolean
+        default: true
+      require_metadata:
+        description: Require lang, title, description, and canonical metadata.
+        required: false
+        type: boolean
+        default: false
+      upload_preview:
+        description: Upload the scanned surface as a short-lived preview artifact.
+        required: false
+        type: boolean
+        default: true
+      preview_name:
+        description: Prefix used for the preview artifact.
+        required: false
+        type: string
+        default: "web-preview"
+      retention_days:
+        description: Preview artifact retention in days.
+        required: false
+        type: number
+        default: 3
+
+permissions:
+  contents: read
+
+jobs:
+  web-pr-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out caller repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Peaceful World web quality gate
+        uses: peaceful-world-org/.github/.github/actions/web-quality-gate@main
+        with:
+          scan_root: ${{ inputs.scan_root }}
+          mode: ${{ inputs.mode }}
+          changed_only: ${{ inputs.changed_only }}
+          require_metadata: ${{ inputs.require_metadata }}
+
+      - name: Upload preview artifact
+        if: ${{ inputs.upload_preview }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.preview_name }}-${{ github.event.pull_request.number || github.run_id }}
+          path: ${{ inputs.scan_root }}
+          if-no-files-found: error
+          retention-days: ${{ inputs.retention_days }}
