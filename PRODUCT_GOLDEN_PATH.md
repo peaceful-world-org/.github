@@ -166,7 +166,7 @@ We start with `website-lab` because it is the safest place to learn. The live pr
 
 ## Next versions
 
-Golden Path v1 intentionally does **not** solve everything.
+Golden Path v1.1 adds lightweight accessibility and discoverability hygiene without adding another dependency or CI job. It still intentionally does **not** solve everything.
 
 Planned layers:
 

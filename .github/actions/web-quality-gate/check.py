@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 import sys
@@ -23,8 +24,19 @@ class PageParser(HTMLParser):
         self.in_title = False
         self.description = ""
         self.canonical = ""
+        self.viewport = ""
+        self.robots = ""
         self.ids: list[str] = []
         self.refs: list[tuple[str, str, str]] = []
+        self.main_count = 0
+        self.h1_count = 0
+        self.images_missing_alt: list[str] = []
+        self.iframes_missing_title: list[str] = []
+        self.has_hreflang = False
+        self.multilingual_signal = False
+        self.in_jsonld = False
+        self.jsonld_buffer: list[str] = []
+        self.jsonld_blocks: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         data = {key.lower(): (value or "") for key, value in attrs}
@@ -34,10 +46,36 @@ class PageParser(HTMLParser):
             self.html_lang = data.get("lang", "").strip()
         elif tag == "title":
             self.in_title = True
-        elif tag == "meta" and data.get("name", "").lower() == "description":
-            self.description = data.get("content", "").strip()
-        elif tag == "link" and "canonical" in data.get("rel", "").lower().split():
-            self.canonical = data.get("href", "").strip()
+        elif tag == "meta":
+            name = data.get("name", "").lower()
+            if name == "description":
+                self.description = data.get("content", "").strip()
+            elif name == "viewport":
+                self.viewport = data.get("content", "").strip()
+            elif name == "robots":
+                self.robots = data.get("content", "").strip()
+        elif tag == "link":
+            rel = data.get("rel", "").lower().split()
+            if "canonical" in rel:
+                self.canonical = data.get("href", "").strip()
+            if "alternate" in rel and data.get("hreflang", "").strip():
+                self.has_hreflang = True
+        elif tag == "main":
+            self.main_count += 1
+        elif tag == "h1":
+            self.h1_count += 1
+        elif tag == "img":
+            if "alt" not in data:
+                self.images_missing_alt.append(data.get("src", "(inline image)"))
+        elif tag == "iframe":
+            if not data.get("title", "").strip():
+                self.iframes_missing_title.append(data.get("src", data.get("data-src", "(iframe)")))
+        elif tag == "script" and data.get("type", "").lower() == "application/ld+json":
+            self.in_jsonld = True
+            self.jsonld_buffer = []
+
+        if any(key in data for key in ("data-en", "data-ru", "data-pw-lang")):
+            self.multilingual_signal = True
 
         element_id = data.get("id", "").strip()
         if element_id:
@@ -49,16 +87,27 @@ class PageParser(HTMLParser):
                 self.refs.append((tag, attr, value))
 
     def handle_endtag(self, tag: str) -> None:
-        if tag.lower() == "title":
+        tag = tag.lower()
+        if tag == "title":
             self.in_title = False
+        elif tag == "script" and self.in_jsonld:
+            self.jsonld_blocks.append("".join(self.jsonld_buffer).strip())
+            self.jsonld_buffer = []
+            self.in_jsonld = False
 
     def handle_data(self, data: str) -> None:
         if self.in_title:
             self.title_parts.append(data)
+        if self.in_jsonld:
+            self.jsonld_buffer.append(data)
 
     @property
     def title(self) -> str:
         return " ".join(part.strip() for part in self.title_parts if part.strip()).strip()
+
+    @property
+    def indexable(self) -> bool:
+        return "noindex" not in self.robots.lower()
 
 
 def bool_env(name: str, default: bool) -> bool:
@@ -152,22 +201,23 @@ def resolve_local_ref(page: Path, ref: str) -> Path | None:
     return target
 
 
-def audit_page(page: Path, root: Path, require_metadata: bool) -> tuple[list[str], list[str]]:
+def audit_page(page: Path, root: Path, require_metadata: bool) -> tuple[list[str], list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
+    notes: list[str] = []
 
     try:
         text = page.read_text(encoding="utf-8")
     except UnicodeDecodeError:
         errors.append("not valid UTF-8")
-        return errors, warnings
+        return errors, warnings, notes
 
     parser = PageParser()
     try:
         parser.feed(text)
-    except Exception as exc:  # HTMLParser is tolerant; reaching here is unusual.
+    except Exception as exc:
         errors.append(f"HTML parser error: {exc}")
-        return errors, warnings
+        return errors, warnings, notes
 
     duplicate_ids = sorted(key for key, count in Counter(parser.ids).items() if count > 1)
     if duplicate_ids:
@@ -175,19 +225,39 @@ def audit_page(page: Path, root: Path, require_metadata: bool) -> tuple[list[str
         suffix = "..." if len(duplicate_ids) > 8 else ""
         errors.append(f"duplicate element IDs: {preview}{suffix}")
 
-    metadata = [
+    core_metadata = [
         ("html[lang]", parser.html_lang),
         ("title", parser.title),
         ("meta description", parser.description),
-        ("canonical", parser.canonical),
     ]
-    for label, value in metadata:
+    for label, value in core_metadata:
         if not value:
             message = f"missing {label}"
             if require_metadata:
                 errors.append(message)
             else:
                 warnings.append(message)
+
+    if not parser.viewport:
+        warnings.append("missing viewport meta")
+
+    if parser.main_count == 0:
+        warnings.append("missing <main> landmark")
+    elif parser.main_count > 1:
+        warnings.append(f"multiple <main> landmarks ({parser.main_count})")
+
+    if parser.h1_count == 0:
+        warnings.append("missing <h1>")
+
+    if parser.images_missing_alt:
+        shown = ", ".join(parser.images_missing_alt[:8])
+        suffix = "..." if len(parser.images_missing_alt) > 8 else ""
+        warnings.append(f"images without alt attribute: {shown}{suffix}")
+
+    if parser.iframes_missing_title:
+        shown = ", ".join(parser.iframes_missing_title[:8])
+        suffix = "..." if len(parser.iframes_missing_title) > 8 else ""
+        errors.append(f"iframes without title: {shown}{suffix}")
 
     missing_refs: list[str] = []
     for tag, attr, ref in parser.refs:
@@ -197,7 +267,6 @@ def audit_page(page: Path, root: Path, require_metadata: bool) -> tuple[list[str
         try:
             target.relative_to(root)
         except ValueError:
-            # References outside scan_root can be legitimate shared assets.
             continue
         if not target.exists():
             missing_refs.append(f"{tag}[{attr}]={ref}")
@@ -207,7 +276,26 @@ def audit_page(page: Path, root: Path, require_metadata: bool) -> tuple[list[str
         suffix = "..." if len(missing_refs) > 8 else ""
         errors.append(f"missing relative references: {shown}{suffix}")
 
-    return errors, warnings
+    for block in parser.jsonld_blocks:
+        if not block:
+            warnings.append("empty JSON-LD block")
+            continue
+        try:
+            json.loads(block)
+        except json.JSONDecodeError as exc:
+            warnings.append(f"invalid JSON-LD: {exc.msg}")
+
+    if parser.indexable:
+        if not parser.canonical:
+            warnings.append("indexable page has no canonical URL")
+        if not parser.jsonld_blocks:
+            warnings.append("indexable page has no structured data (JSON-LD)")
+        if parser.multilingual_signal and not parser.has_hreflang:
+            warnings.append("multilingual page has no hreflang alternates")
+    else:
+        notes.append("page is noindex; canonical/schema/hreflang discoverability checks were relaxed")
+
+    return errors, warnings, notes
 
 
 def main() -> int:
@@ -238,12 +326,14 @@ def main() -> int:
 
     errors: list[tuple[Path, str]] = []
     warnings: list[tuple[Path, str]] = []
+    notes: list[tuple[Path, str]] = []
 
     for page in candidates:
-        page_errors, page_warnings = audit_page(page, scan_root, require_metadata)
+        page_errors, page_warnings, page_notes = audit_page(page, scan_root, require_metadata)
         relative = page.relative_to(repo_root)
         errors.extend((relative, message) for message in page_errors)
         warnings.extend((relative, message) for message in page_warnings)
+        notes.extend((relative, message) for message in page_notes)
 
     summary_lines = [
         "## Peaceful World web quality gate",
@@ -254,6 +344,9 @@ def main() -> int:
         f"- HTML files audited: **{len(candidates)}**",
         f"- Errors: **{len(errors)}**",
         f"- Warnings: **{len(warnings)}**",
+        f"- Notes: **{len(notes)}**",
+        "",
+        "Checks include structural integrity, basic accessibility signals, and search/AI discoverability hygiene.",
         "",
     ]
 
@@ -271,6 +364,13 @@ def main() -> int:
             summary_lines.append(f"- ...and {len(warnings) - 50} more")
         summary_lines.append("")
 
+    if notes:
+        summary_lines += ["### Notes", ""]
+        summary_lines += [f"- `{path}`: {message}" for path, message in notes[:30]]
+        if len(notes) > 30:
+            summary_lines.append(f"- ...and {len(notes) - 30} more")
+        summary_lines.append("")
+
     if not candidates:
         summary_lines += [
             "No HTML files matched this run. This is normal for documentation-only changes.",
@@ -286,6 +386,8 @@ def main() -> int:
         print(f"::error file={path}::{message}")
     for path, message in warnings:
         print(f"::warning file={path}::{message}")
+    for path, message in notes:
+        print(f"::notice file={path}::{message}")
 
     if mode == "advisory":
         return 0
