@@ -1,0 +1,271 @@
+schema_version: 1
+last_updated: "2026-09-28"
+
+principles:
+  technical_source_of_truth: github
+  institutional_memory: google_drive
+  orchestration_layer: openai_chatgpt
+  default_delivery_strategy: github_first
+  rule: "Prefer one system of record per concern; add services only for a clear capability gap."
+
+statuses:
+  active: "In real use."
+  available: "Benefit/account secured but not central to the workflow yet."
+  planned: "Approved direction, not yet implemented."
+  evaluate: "Worth testing before adoption."
+  avoid: "Duplicates an existing system or does not fit current scale."
+
+services:
+  github:
+    status: active
+    category: development
+    role:
+      - code_and_version_history
+      - product_source_of_truth
+      - ci_cd
+      - qa
+      - pages_where_appropriate
+    nonprofit_benefit: secured
+    criticality: critical
+
+  google_workspace:
+    status: active
+    category: institutional_memory
+    role:
+      - drive_archive
+      - docs
+      - sheets
+      - research
+      - grants
+      - operating_records
+    criticality: critical
+
+  openai_chatgpt:
+    status: active
+    category: ai_orchestration
+    role:
+      - research
+      - drafting
+      - analysis
+      - connector_orchestration
+      - cross_system_workflows
+    nonprofit_benefit: secured
+    criticality: high
+
+  claude:
+    status: active
+    category: ai_research
+    role:
+      - independent_review
+      - long_context_critique
+      - cross_model_validation
+    nonprofit_benefit: secured
+    criticality: medium
+
+  canva:
+    status: active
+    category: visual_production
+    role:
+      - social_assets
+      - brand_templates
+    nonprofit_benefit: secured
+    criticality: low
+
+  tilda:
+    status: active
+    category: web_delivery
+    lifecycle: legacy_transition
+    role:
+      - current_public_site_shell
+      - indexed_pages
+      - selected_forms
+    direction: "Keep stable while new work becomes GitHub-first; remove only through controlled migration."
+    criticality: high
+
+  cloudflare:
+    status: evaluate
+    category: edge_delivery
+    role:
+      - git_based_production_delivery
+      - preview_deployments
+      - cdn
+      - dns_and_security
+      - ai_crawler_visibility
+    criticality: medium
+
+  google_analytics_search_console:
+    status: active
+    category: analytics
+    role:
+      - audience_measurement
+      - acquisition
+      - search_indexing
+      - search_performance
+    criticality: medium
+
+  new_relic:
+    status: planned
+    category: observability
+    role:
+      - uptime
+      - frontend_errors
+      - performance
+      - synthetic_checks
+      - post_deploy_health
+    nonprofit_benefit: available_via_goodstack
+    criticality: medium
+
+  microsoft_365_business_premium:
+    status: active
+    category: security
+    role:
+      - defender_for_business
+      - intune_available
+      - entra_id_p1_available
+      - conditional_access_available
+    criticality: high
+
+  azure:
+    status: available
+    category: backend_cloud
+    role:
+      - backend_functions_if_needed
+      - databases_if_needed
+      - storage_if_needed
+      - scheduled_jobs_if_needed
+      - api_or_ai_compute_if_needed
+    nonprofit_benefit: "USD 2000 credits/year offer"
+    rule: "Do not migrate workloads merely to spend credits."
+    criticality: low
+
+  monday:
+    status: active
+    category: relationships_operations
+    role:
+      - crm_layer
+      - partnerships
+      - followups
+      - operational_tracking
+    criticality: medium
+
+  mailerlite:
+    status: active
+    category: owned_audience
+    role:
+      - newsletters
+      - segmentation
+      - supporter_communications
+    criticality: medium
+
+  donorbox:
+    status: active
+    category: fundraising
+    role:
+      - donations
+    criticality: high
+
+  goodstack:
+    status: active
+    category: nonprofit_infrastructure
+    role:
+      - nonprofit_verification
+      - software_benefits
+      - funding_discovery
+    criticality: medium
+
+  goodstack_grants_pro:
+    status: evaluate
+    category: funding_discovery
+    role:
+      - grant_matching
+    evaluation_rule: "Keep only if it finds high-fit opportunities our existing search process misses."
+    criticality: low
+
+  buffer:
+    status: evaluate
+    category: social_distribution
+    role:
+      - multi_network_scheduling
+      - distribution_automation
+    criticality: low
+
+  hootsuite:
+    status: evaluate
+    category: social_distribution
+    role:
+      - scheduling
+      - inbox
+      - monitoring
+    nonprofit_benefit: "60% discount visible in Goodstack"
+    criticality: low
+
+  metricool:
+    status: evaluate
+    category: social_distribution
+    role:
+      - scheduling
+      - analytics
+      - ai_assisted_social_workflows
+    criticality: low
+
+  semrush:
+    status: evaluate
+    category: search_visibility
+    timing: later
+    role:
+      - seo_research
+      - technical_seo
+      - ai_visibility_measurement
+    rule: "Measurement tool, not a mechanism that causes AI citation."
+    criticality: low
+
+  ahrefs:
+    status: evaluate
+    category: search_visibility
+    timing: later
+    role:
+      - backlinks
+      - seo
+      - ai_brand_visibility
+    criticality: low
+
+  similarweb:
+    status: evaluate
+    category: market_intelligence
+    timing: later
+    role:
+      - external_traffic_intelligence
+      - ai_referral_benchmarking
+    criticality: low
+
+avoid_or_not_needed_now:
+  - gitlab
+  - jira
+  - confluence
+  - asana
+  - constant_contact
+  - keela
+  - power_apps
+  - okta
+  - splunk
+
+future_on_trigger:
+  auth0: "Add only if user accounts/authentication/cross-device profiles require it."
+  twilio: "Add only for SMS, WhatsApp, OTP or transactional messaging."
+  docusign: "Add when contract/signature volume justifies it."
+  upwork_business_plus: "Use when funding exists for specialist contractors."
+
+golden_path:
+  version: 1
+  flow:
+    - idea
+    - branch
+    - pull_request
+    - automated_quality_gate
+    - preview
+    - review
+    - merge
+    - production
+    - live_monitoring
+    - analytics_iteration
+  pilot_repository: peaceful-world-org/website-lab
