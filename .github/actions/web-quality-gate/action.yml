@@ -1,0 +1,32 @@
+name: Peaceful World web quality gate
+description: Fast dependency-free checks for static web surfaces.
+
+inputs:
+  scan_root:
+    description: Repository path to scan.
+    required: false
+    default: "."
+  mode:
+    description: advisory, baseline, or strict.
+    required: false
+    default: "baseline"
+  changed_only:
+    description: Scan only HTML files changed by the pull request when possible.
+    required: false
+    default: "true"
+  require_metadata:
+    description: Require language, title, description, and canonical metadata.
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - name: Audit web surface
+      shell: bash
+      env:
+        PW_SCAN_ROOT: ${{ inputs.scan_root }}
+        PW_MODE: ${{ inputs.mode }}
+        PW_CHANGED_ONLY: ${{ inputs.changed_only }}
+        PW_REQUIRE_METADATA: ${{ inputs.require_metadata }}
+      run: python "$GITHUB_ACTION_PATH/check.py"
