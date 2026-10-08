@@ -1,6 +1,6 @@
 # Peaceful World — Engineering Efficiency Standard
 
-Status: proposed organization-wide baseline (2026-10-08). This standard complements, and does not override, repository-specific release and safety contracts.
+Status: ACTIVE organization-wide baseline (2026-10-08). This standard complements, and does not override, repository-specific release and safety contracts.
 
 ## Scope and accounting
 
