@@ -4,6 +4,9 @@ This document defines the default path for new Peaceful World web products and m
 
 The goal is not to add process. The goal is to remove repeated manual decisions and make safe releases cheap.
 
+Organization-wide AI/GitHub Actions cost policy: [Engineering Efficiency Standard](ENGINEERING_EFFICIENCY_STANDARD.md). Repo-specific source, release and safety requirements take precedence.
+
+
 ## The default flow
 
 ```text

@@ -14,6 +14,7 @@ The organization profile is rendered from [`profile/README.md`](profile/README.m
 - [Volunteer](VOLUNTEER.md) — ways to contribute
 - [Transparency](TRANSPARENCY.md) — what we make public and why
 - [Public work model](PUBLIC_WORK_MODEL.md) — how these layers fit together
+- [Engineering efficiency standard](ENGINEERING_EFFICIENCY_STANDARD.md) — shared AI-model and GitHub Actions cost discipline
 - [Candidate volunteer sprints / Project Pods](PROJECT_PODS.md)
 - [Security policy](SECURITY.md)
 - [Contributing](CONTRIBUTING.md)
