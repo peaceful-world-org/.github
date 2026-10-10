@@ -15,6 +15,8 @@ The organization profile is rendered from [`profile/README.md`](profile/README.m
 - [Transparency](TRANSPARENCY.md) — what we make public and why
 - [Public work model](PUBLIC_WORK_MODEL.md) — how these layers fit together
 - [Engineering efficiency standard](ENGINEERING_EFFICIENCY_STANDARD.md) — shared AI-model and GitHub Actions cost discipline
+- [Enterprise activation plan](ENTERPRISE_ACTIVATION_PLAN.md) — phased, safety-first onboarding of GitHub Enterprise
+- [AI agent operating model](AI_AGENT_OPERATING_MODEL_V1.md) — proposed responsibilities, review and access rules
 - [Candidate volunteer sprints / Project Pods](PROJECT_PODS.md)
 - [Security policy](SECURITY.md)
 - [Contributing](CONTRIBUTING.md)
