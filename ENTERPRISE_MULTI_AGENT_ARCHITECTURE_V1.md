@@ -1,6 +1,6 @@
 # Peaceful World — Enterprise Multi-Agent Architecture v1
 
-**Status: PROPOSED for owner adoption (2026-10-10).** Documentation / operating design only. This is not an authorization to change Enterprise settings, install or repermission Apps, enable Copilot, add workflows or secrets, merge product PRs, publish production, or incur AI/API charges.
+**Status: ACTIVE for human-orchestrated, on-demand independent review (owner approved 2026-10-10).** This is an operating standard, not an automatic agent integration. This is not an authorization to change Enterprise settings, install or repermission Apps, enable Copilot, add workflows or secrets, merge product PRs, publish production, or incur AI/API charges.
 
 **Scope:** GitHub Enterprise Cloud governance of the existing `peaceful-world-org` organization; human-orchestrated developer/reviewer collaboration across its *independent* product repositories.
 
@@ -111,13 +111,13 @@ Official GitHub references: [Choosing App permissions](https://docs.github.com/e
 
 GitHub Copilot code review and third-party partner agents are **different products** from an owner's manually authenticated Claude Code session. GitHub documents possible AI-credit charges and distinct policy/entitlement gates: [Copilot code review and billing](https://docs.github.com/en/copilot/concepts/agents/code-review). Enterprise Cloud alone does not make these reviews free.
 
-## 7. Rollout and acceptance checklist (documentation stage)
+## 7. Adoption and rollout checklist
 
 - [x] Existing actual pilot evidence read and recorded; manual second opinion is useful under selected conditions.
 - [x] The default operational path is **manual review with existing subscriptions**, no new infrastructure required.
-- [ ] **Owner adopts** this proposed architecture and SOP as an active internal operating standard.
+- [x] **Owner approved** this manual architecture and SOP as an active internal operating standard on 2026-10-10. No Enterprise policy or App permission change is implied.
 - [ ] Run one R1 and one R2 ordinary PR with a frozen packet, record reviewer time, accepted/falsified findings, CI delta and decision quality in each PR (without creating artificial work).
 - [ ] Later, in a **separate security session**, verify Claude/Grok and publisher App permissions after the necessary authenticated owner access; consider reducing rights *only with a tested migration plan*.
 - [ ] Consider auto-review **only if** evidence shows repeat workload and owner separately approves the costs, secrets, access and repository-specific rollout.
 
-**Explicit non-goals for this document PR:** no Enterprise/GitHub setting changes, no rulesets, no branch-protection edits, no production receiver writes, no publication, no new model purchase, no new generic CI workflows, and no changes to product source files.
+**Explicit non-goals of adopting this standard:** no Enterprise/GitHub setting changes, no rulesets, no branch-protection edits, no production receiver writes, no publication, no new model purchase, no new generic CI workflows, and no changes to product source files.

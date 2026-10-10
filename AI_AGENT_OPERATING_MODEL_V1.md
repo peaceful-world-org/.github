@@ -1,9 +1,9 @@
 # Peaceful World — AI Agent Operating Model v1.0
 
-Status: **PROPOSED for review**, not an authorization to install agents, grant permissions, spend money or release production.  
+Status: **ACTIVE for human-orchestrated on-demand AI review (owner approved 2026-10-10)**, not an authorization to install agents, grant permissions, spend money or release production.  
 Scope: reusable development and QA pattern for Peaceful World and future nonprofit digital products.
 
-**2026-10-10 operational refinement:** Two manual independent Claude Code review pilots have now completed (Research PR #862 and a source-data review on True Cost PR #209). The owner chose **human-orchestrated on-demand review using existing subscriptions**, not unattended or paid automatic code review. For the proposed Enterprise integration design and reusable reviewer packet, see [Enterprise Multi-Agent Architecture v1](ENTERPRISE_MULTI_AGENT_ARCHITECTURE_V1.md) and [Claude Independent Review SOP v1](CLAUDE_INDEPENDENT_REVIEW_SOP_V1.md). The status of this governance document remains PROPOSED pending explicit owner adoption; these links do not authorize GitHub App, billing, workflow or release changes.
+**2026-10-10 operational refinement:** Two manual independent Claude Code review pilots have now completed (Research PR #862 and a source-data review on True Cost PR #209). The owner chose **human-orchestrated on-demand review using existing subscriptions**, not unattended or paid automatic code review. For the adopted manual Enterprise integration design and reusable reviewer packet, see [Enterprise Multi-Agent Architecture v1](ENTERPRISE_MULTI_AGENT_ARCHITECTURE_V1.md) and [Claude Independent Review SOP v1](CLAUDE_INDEPENDENT_REVIEW_SOP_V1.md). Owner has approved the manual operating model; these links do not authorize GitHub App, billing, workflow or release changes.
 
 ## Purpose
 
@@ -49,12 +49,12 @@ A review must record: source commit/PR, checked scope, commands/tests, observed 
 
 For multilingual content, check language parity, omissions/additions, uncertainty, source attribution and human-sensitive terminology. A fluent translation is not proof of truth.
 
-## Launch order
+## Operational rollout (manual mode)
 
-1. Review this proposed standard and confirm roles.
-2. Try one independent **read-only** PR review and one bounded localization task using tools already available.
-3. Compare quality, time, cost and actual defects. Keep existing deterministic QA as the gate.
-4. Consider unattended GitHub agent workflows only after permission, budget and privacy review.
-5. Scale to 5 Practice and other products independently; never assume a website workflow applies to all repos.
+1. **Complete:** owner adopted the human-orchestrated role model on 2026-10-10; independent read-only Claude Code reviews were demonstrated in real PR pilots.
+2. **Now:** apply the [Claude Independent Review SOP](CLAUDE_INDEPENDENT_REVIEW_SOP_V1.md) only to risk-selected changes; keep GitHub Actions as the deterministic gate, and preserve separate release authorization.
+3. **Next:** record accepted findings, false positives, verification time and model charges (only if observable) on real work; independently evaluate any future localization pilot.
+4. **Deferred:** unattended review and GitHub App permission changes require a separate owner decision and security, usage and privacy review.
+5. Extend to `5` and other independent repositories only when requested and consistent with their own `AGENTS.md`; do not treat website Release v2 as universal.
 
 **Owner-controlled actions:** production releases, DNS/domain, enterprise settings, new API subscriptions/spend, email sending/outreach, publication of sensitive material, account or collaborator access changes.

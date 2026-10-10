@@ -16,8 +16,8 @@ The organization profile is rendered from [`profile/README.md`](profile/README.m
 - [Public work model](PUBLIC_WORK_MODEL.md) — how these layers fit together
 - [Engineering efficiency standard](ENGINEERING_EFFICIENCY_STANDARD.md) — shared AI-model and GitHub Actions cost discipline
 - [Enterprise activation plan](ENTERPRISE_ACTIVATION_PLAN.md) — phased, safety-first onboarding of GitHub Enterprise
-- [AI agent operating model](AI_AGENT_OPERATING_MODEL_V1.md) — proposed responsibilities, review and access rules
-- [Enterprise multi-agent architecture](ENTERPRISE_MULTI_AGENT_ARCHITECTURE_V1.md) — proposed source, reviewer, GitHub Enterprise and production authority boundaries
+- [AI agent operating model](AI_AGENT_OPERATING_MODEL_V1.md) — active manual agent responsibilities, review and access boundaries
+- [Enterprise multi-agent architecture](ENTERPRISE_MULTI_AGENT_ARCHITECTURE_V1.md) — adopted manual source, reviewer, GitHub Enterprise and production authority boundaries
 - [Claude independent review SOP](CLAUDE_INDEPENDENT_REVIEW_SOP_V1.md) — manual second-opinion packet, prompt, risk classification and evidence gates
 - [Candidate volunteer sprints / Project Pods](PROJECT_PODS.md)
 - [Security policy](SECURITY.md)

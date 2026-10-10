@@ -1,6 +1,6 @@
 # Peaceful World — Claude Independent Review SOP v1
 
-**Status: PROPOSED alongside [Enterprise Multi-Agent Architecture v1](ENTERPRISE_MULTI_AGENT_ARCHITECTURE_V1.md), 2026-10-10.** This is a manual, human-orchestrated procedure. It does not enable GitHub Apps, paid reviews, CI jobs, permission grants or autonomous releases.
+**Status: ACTIVE — manual on-demand review standard, approved 2026-10-10, alongside [Enterprise Multi-Agent Architecture v1](ENTERPRISE_MULTI_AGENT_ARCHITECTURE_V1.md).** This is a manual, human-orchestrated procedure. It does not enable GitHub Apps, paid reviews, CI jobs, permission grants or autonomous releases.
 
 **Purpose:** obtain a genuinely independent *second opinion* on a specific pull request, cheaply and reproducibly, so a reviewer can catch incorrect assumptions, overlooked regressions, unsafe permissions, source errors and gaps hidden by green tests.
 
