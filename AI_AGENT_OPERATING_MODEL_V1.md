@@ -3,6 +3,8 @@
 Status: **PROPOSED for review**, not an authorization to install agents, grant permissions, spend money or release production.  
 Scope: reusable development and QA pattern for Peaceful World and future nonprofit digital products.
 
+**2026-10-10 operational refinement:** Two manual independent Claude Code review pilots have now completed (Research PR #862 and a source-data review on True Cost PR #209). The owner chose **human-orchestrated on-demand review using existing subscriptions**, not unattended or paid automatic code review. For the proposed Enterprise integration design and reusable reviewer packet, see [Enterprise Multi-Agent Architecture v1](ENTERPRISE_MULTI_AGENT_ARCHITECTURE_V1.md) and [Claude Independent Review SOP v1](CLAUDE_INDEPENDENT_REVIEW_SOP_V1.md). The status of this governance document remains PROPOSED pending explicit owner adoption; these links do not authorize GitHub App, billing, workflow or release changes.
+
 ## Purpose
 
 Make complex digital products possible with a small human team, while retaining verifiable quality, human dignity and accountable ownership.
