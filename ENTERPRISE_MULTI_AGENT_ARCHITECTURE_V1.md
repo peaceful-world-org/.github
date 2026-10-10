@@ -2,13 +2,13 @@
 
 **Status: PROPOSED for owner adoption (2026-10-10).** Documentation / operating design only. This is not an authorization to change Enterprise settings, install or repermission Apps, enable Copilot, add workflows or secrets, merge product PRs, publish production, or incur AI/API charges.
 
-**Scope:** GitHub Enterprise Cloud governance of the existing \`peaceful-world-org\` organization; human-orchestrated developer/reviewer collaboration across its *independent* product repositories.
+**Scope:** GitHub Enterprise Cloud governance of the existing `peaceful-world-org` organization; human-orchestrated developer/reviewer collaboration across its *independent* product repositories.
 
-This document specializes the [AI Agent Operating Model](AI_AGENT_OPERATING_MODEL_V1.md), [Engineering Efficiency Standard](ENGINEERING_EFFICIENCY_STANDARD.md), [Enterprise Activation Plan](ENTERPRISE_ACTIVATION_PLAN.md) and [Product Golden Path](PRODUCT_GOLDEN_PATH.md). A repository's current \`AGENTS.md\`, required checks, release architecture and owner decisions always take precedence.
+This document specializes the [AI Agent Operating Model](AI_AGENT_OPERATING_MODEL_V1.md), [Engineering Efficiency Standard](ENGINEERING_EFFICIENCY_STANDARD.md), [Enterprise Activation Plan](ENTERPRISE_ACTIVATION_PLAN.md) and [Product Golden Path](PRODUCT_GOLDEN_PATH.md). A repository's current `AGENTS.md`, required checks, release architecture and owner decisions always take precedence.
 
 ## 1. Architecture: independent work, independent evidence, human authority
 
-\`\`\`text
+```text
 Owner: goal / scope / product acceptance / publication authority
     |
     v
@@ -33,7 +33,7 @@ Scoped QA on exact new head; targeted re-review if material P0/P1 changed
     |
     v
 Preview + owner product acceptance -> repository-specific approved release
-\`\`\`
+```
 
 These are **functional roles, not GitHub accounts, seats or automatic integrations**. "Different models" is not enough for independent review if one only paraphrases the other's findings. Reviewers must receive the frozen source diff and acceptance criteria, but not the implementer's final verdict or the previous review before their first assessment.
 
@@ -43,14 +43,14 @@ Enterprise provides governance, policies and repository administration. It does 
 
 | Plane | System of record | Authority boundary |
 | --- | --- | --- |
-| Product source | Each source repo: e.g. \`website-lab\`, \`5\`, \`true-cost-of-war\` | Codex/developer works on a bounded PR; does not bypass local \`AGENTS.md\` |
+| Product source | Each source repo: e.g. `website-lab`, `5`, `true-cost-of-war` | Codex/developer works on a bounded PR; does not bypass local `AGENTS.md` |
 | Evidence | Repository CI runs, exact commit SHA, source citations, review reports | Green tests prove tested invariants, not truth of all assumptions |
 | Second opinion | Human-invoked, authenticated Claude Code on the exact PR | Reviewer produces advisory findings; cannot autonomously approve/merge/publish |
 | Enterprise governance | Enterprise/organization owners | Only owner authorizes membership, App access, policy, billing and authentication changes |
 | Production | Per-repository release mechanism | Human approval + product-specific release gates; no generic enterprise auto-deploy rule |
 | Institutional record | GitHub for technical decisions; Google Drive for internal operating records | Never disclose secrets, private donor/member details or unpublished sensitive research in public packets |
 
-**Explicit website distinction:** \`website-lab\` is source, QA and staging; \`peaceful-world.org\` is generated-only production delivered by GitHub Pages through website Release Architecture v2. The 2026-10-05 cutover is complete. The website's exact-main chat-native release mechanism is **not** a default for the independent \`5\` or \`true-cost-of-war\` repositories. Do not introduce Tilda into current operational release paths.
+**Explicit website distinction:** `website-lab` is source, QA and staging; `peaceful-world.org` is generated-only production delivered by GitHub Pages through website Release Architecture v2. The 2026-10-05 cutover is complete. The website's exact-main chat-native release mechanism is **not** a default for the independent `5` or `true-cost-of-war` repositories. Do not introduce Tilda into current operational release paths.
 
 ## 2. What has already been validated
 
@@ -78,11 +78,11 @@ On R2/R3, missing reviewer access, stale SHA, unverified external claims, CI fai
 
 ## 4. Single-package manual review workflow
 
-1. **Freeze:** coordinator reads current target repo \`main\`, existing PR head/base SHA, diff, \`AGENTS.md\`, current checks, release boundary and approved acceptance criteria. Confirm which test runs actually cover the head; do not reuse stale runs as current.
-2. **Prepare once:** on command **«ПОДГОТОВЬ К CLAUDE-РЕВЬЮ»**, produce a bounded review packet in the PR or the repo's existing \`qa/council/current/00_REVIEW.md\` location *if that repo uses the convention and the material may safely be stored there*. No public dumping of private diffs or credentials. The packet links to one frozen head and supplies the actual diff/context to an authorized reviewer.
+1. **Freeze:** coordinator reads current target repo `main`, existing PR head/base SHA, diff, `AGENTS.md`, current checks, release boundary and approved acceptance criteria. Confirm which test runs actually cover the head; do not reuse stale runs as current.
+2. **Prepare once:** on command **«ПОДГОТОВЬ К CLAUDE-РЕВЬЮ»**, produce a bounded review packet in the PR or the repo's existing `qa/council/current/00_REVIEW.md` location *if that repo uses the convention and the material may safely be stored there*. No public dumping of private diffs or credentials. The packet links to one frozen head and supplies the actual diff/context to an authorized reviewer.
 3. **Independent first pass:** owner invokes their existing authenticated Claude Code; reviewer sees code, constraints and CI evidence, **not the developer/coordinator's own verdict**. Explicitly read-only. If authenticated repository access is absent, stop instead of pretending a pasted URL provides access.
 4. **Report:** paths/line locations, test steps, severity P0/P1/P2/nit, evidence, alternative hypothesis, source provenance, what was *not* checked, and "no changes made." If source URLs were blocked, claim **not independently verified**.
-5. **Adjudicate:** coordinator verifies each concrete finding. Label it \`ACCEPT\`, \`REJECT (reason)\` or \`DEFER (risk + owner)\`; separate a confirmed defect from a hypothesis and a pre-existing baseline failure from PR regression. Preserve original Claude report.
+5. **Adjudicate:** coordinator verifies each concrete finding. Label it `ACCEPT`, `REJECT (reason)` or `DEFER (risk + owner)`; separate a confirmed defect from a hypothesis and a pre-existing baseline failure from PR regression. Preserve original Claude report.
 6. **Repair and gate:** implementation agent fixes accepted problems on the *same* PR/branch where safe, runs relevant CI on the **new** SHA, and requests **targeted** re-review only for material changes or unresolved P0/P1. Do not repeat unchanged costly full councils.
 7. **Release:** owner accepts actual preview/product result, then invokes the *product's* release mechanism separately. No agent infers approval from a green PR or from the phrase "looks good" outside the product-release context.
 
@@ -95,9 +95,9 @@ Canonical practical instructions and reviewer prompt: [Claude Independent Review
 - Repository access: **selected source repositories only**, and only for the duration/scope genuinely needed where the provider allows it.
 - GitHub App permissions: repository metadata/read; contents/read; pull requests/read; Actions/read only where logs are necessary. PR/Issue **write for comments** is an optional, separately approved capability, not a prerequisite for doing manual review.
 - No contents/write, Workflows/write, Administration, organization owner authority, production credentials, DNS, billing or unrestricted repository membership for a review-only service.
-- **Installation repository selection and the App's own permission categories are distinct constraints.** A narrow repository list does not make broad \`Contents: write\` harmless. A prompt saying "read-only" is a behavioral instruction, **not** GitHub-enforced least privilege.
+- **Installation repository selection and the App's own permission categories are distinct constraints.** A narrow repository list does not make broad `Contents: write` harmless. A prompt saying "read-only" is a behavioral instruction, **not** GitHub-enforced least privilege.
 - The existing Claude/Grok installed permission matrices and pending Claude permission update are **not fully verified** because elevated GitHub authentication is required. Do **not** auto-approve, revoke or modify these installations as a side effect of adopting the SOP.
-- The website's \`pw-release-publisher\` is a **separate publishing principal**, not a reviewer or coding identity. Its receiver-only write capability and Release v2 preflight must remain isolated.
+- The website's `pw-release-publisher` is a **separate publishing principal**, not a reviewer or coding identity. Its receiver-only write capability and Release v2 preflight must remain isolated.
 
 Official GitHub references: [Choosing App permissions](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app) · [Review installed Apps](https://docs.github.com/en/apps/using-github-apps/reviewing-and-modifying-installed-github-apps).
 
