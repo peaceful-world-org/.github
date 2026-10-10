@@ -8,7 +8,7 @@ This Enterprise is the governance home for our GitHub organization and future di
 
 - [Peaceful World organization](https://github.com/peaceful-world-org) — repositories and collaborative work.
 - [Peaceful World website](https://peaceful-world.org) — public mission, education and transparency.
-- [5 Practice](https://peaceful-world.org/5) — a five-minute practice for peaceful responses.
+- [5 Practice](https://peaceful-world.org/en/5) — a five-minute practice for peaceful responses.
 - [Public Build Board](https://github.com/orgs/peaceful-world-org/projects/1) — visible work and priorities.
 
 ## How we develop
