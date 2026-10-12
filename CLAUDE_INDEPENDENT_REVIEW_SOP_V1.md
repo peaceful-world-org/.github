@@ -15,6 +15,26 @@ This SOP complements each source repo's `AGENTS.md`, exact-head CI and release s
 
 Default: **one initial review** of the exact frozen head. An accepted follow-up patch gets relevant automated tests and, only for unresolved P0/P1 or changed high-risk assumptions, one **targeted delta** rereview.
 
+## A0. Mandatory first-message access preflight — owner rule (2026-10-12)
+
+**Always send a separate verification question before the substantive review prompt**, whether the reviewer is Claude, Grok, Gemini or another independent model. The coordinator must not bundle the check and the full task in a single first message. Do not infer real access from a project screenshot, a connector badge or the model's unsupported "yes".
+
+The first message should be a **read-only question**, adapted to the exact repository and frozen source:
+
+```text
+Before I give you the review assignment, can you actually read the required sources?
+Using your connected source access, open the named repository and the specific
+AGENTS.md, review packet and candidate implementation file. Verify actual
+contents by returning their exact paths, the packet heading/date/status, and
+one nontrivial detail from the candidate source (with file/section reference).
+Report the intended frozen commit SHA and whether you genuinely accessed that
+revision or only a floating branch. Answer PASS / FAIL and access limitations.
+Do not start the review, evaluate changes, offer fixes or write anything.
+Wait for my separate review instruction.
+```
+
+**Gate:** The coordinator verifies the returned evidence against the actual files and pinned source. Only on verified `PASS` should the substantive review prompt be sent in a **second** message. On `FAIL`, incomplete proof, inaccessible sources or source-SHA mismatch, resolve access or stop `INCONCLUSIVE`; do not substitute summaries or guess. The preflight is not itself an independent review or model approval. It authorizes no permission upgrade, spend, commit or release.
+
 ## B. One-command preparation for the coordinator
 
 The owner may say **«ПОДГОТОВЬ К CLAUDE-РЕВЬЮ»** or the existing **«ПОДГОТОВЬ К КОНСИЛИУМУ»** for repositories whose council convention is already established.
@@ -25,7 +45,7 @@ Coordinator must do the work, not ask for dozens of screenshots:
 2. Read relevant `AGENTS.md`, accepted product decisions, security/release contract and acceptance criteria. Do not reinterpret another repo's Release v2 rules as universal.
 3. Classify risk R0–R3 using the [architecture](ENTERPRISE_MULTI_AGENT_ARCHITECTURE_V1.md). If R0, explain that a second review is unnecessary and stop.
 4. Assemble a **single source packet**, using the existing repository's `qa/council/current/00_REVIEW.md` convention *only if present and appropriate*. Otherwise place the packet in a narrowly scoped PR comment, permitted internal issue or private attachment; **do not create a new permanent council directory for every task**. Public destinations must not contain private source, sensitive personal data or secrets.
-5. Send the owner a direct GitHub PR URL **and exact SHA**, plus one self-contained Claude prompt. If Claude already has authenticated access to the selected repo, it may read the frozen diff itself. Otherwise, supply the actual diff/content securely; a private GitHub URL alone is not source access.
+5. Send the owner a direct GitHub PR URL **and exact SHA**, then **two separate messages in sequence**: first the mandatory source-access verification question (Section A0); only after a verified PASS, the substantive independent review prompt. If Claude already has authenticated access to the selected repo, it may read the frozen diff itself. Otherwise, supply the actual diff/content securely; a private GitHub URL alone is not source access.
 6. Never approve a pending GitHub App permission upgrade as part of preparation. Never launch paid automation or buy Copilot/API capacity just to obtain a review.
 
 ### Minimum review packet (copy and fill once)
