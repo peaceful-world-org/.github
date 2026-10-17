@@ -1,0 +1,90 @@
+name: Suggest a peace initiative / Предложить инициативу
+description: Public proposal for review only. No promise of a project, role or funding.
+title: "[Idea] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Public proposal / Публичное предложение**
+
+        Share a specific, peaceful, small-testable idea. Your submission will be visible to everyone on GitHub. An idea is not an approved Peaceful World project, recruitment call or funding commitment.
+
+        Предложи конкретную мирную идею, которую можно проверить небольшим пилотом. Текст будет публично виден на GitHub. Предложение не означает одобрения проекта, открытия набора или обещания финансирования.
+
+        Do not include names or personal data of third parties, private contact details, conflict-sensitive participant information, threats, passwords, medical records, confidential documents, or links to private archives. For security reports use the [security policy](https://github.com/peaceful-world-org/.github/security/policy).
+
+        Не публикуй персональные данные, частные контакты, конфиденциальные или чувствительные сведения об участниках, угрозы, пароли или закрытые документы. Уязвимости сообщай только через политику безопасности.
+
+        Proposals start in editorial **triage**. They do not automatically enter the Public Build Board or Public Ledger.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Direction / Направление
+      description: Select the closest category / Выбери ближайшее направление.
+      options:
+        - Peace education and practice / Мирное образование и практика
+        - Research and public-interest data / Исследования и данные
+        - Digital tools and technology / Цифровые инструменты
+        - Local community and service / Сообщества и взаимопомощь
+        - Culture and media / Культура и медиа
+        - Other / Другое
+    validations:
+      required: true
+
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose / Зачем нужна идея
+      description: Who could benefit and what peaceful problem is addressed? Avoid claims of proven impact unless sourced.
+      placeholder: "EN or RU: This would help people..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What is the initiative? / Что предлагается
+      description: Describe the approach simply. Keep the scope realistic and specific.
+      placeholder: "EN or RU: A community meeting, tool, learning module, experiment..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: pilot
+    attributes:
+      label: Smallest safe next step / Минимальный безопасный первый шаг
+      description: Describe one deliverable or test that could be reviewed in days or weeks. A proposal is not a commitment by Peaceful World.
+      placeholder: "EN or RU: Create a one-page protocol and review it with..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: relationship
+    attributes:
+      label: Existing work or similar ideas / Связь с существующими инициативами
+      description: Optional. List public projects or prior work this could complement or overlap with.
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Safety, ethics and privacy / Безопасность, этика и приватность
+      description: What could go wrong? How would you prevent harm, dehumanization, coercion, privacy violations or false claims?
+    validations:
+      required: true
+
+  - type: textarea
+    id: help
+    attributes:
+      label: What help might be useful? / Какая помощь может понадобиться
+      description: Optional. Roles, research, design, development, volunteers or resources. Do not post a budget request as a funding promise.
+
+  - type: checkboxes
+    id: declaration
+    attributes:
+      label: Public and review-only / Публичность и предварительная проверка
+      options:
+        - label: I understand this is public and does not include private or sensitive information. / Я понимаю, что текст публичный, и не включаю закрытые или чувствительные сведения.
+          required: true
+        - label: I understand submission does not mean approval, recruitment, funding or a roadmap commitment. / Понимаю, что подача не означает одобрения, набора, финансирования или включения в план.
+          required: true
