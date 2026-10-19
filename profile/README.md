@@ -70,7 +70,9 @@ For security issues, use our [responsible disclosure policy](../SECURITY.md) rat
 
 Peaceful World is a nonprofit. Financial support helps fund research, educational products, translations and public infrastructure.
 
-**[Support Peaceful World →](https://peaceful-world.org/help)**
+**[Sponsor our open-source work on GitHub →](https://github.com/sponsors/peaceful-world-org)**
+
+[Other ways to support Peaceful World →](https://peaceful-world.org/help)
 
 ---
 
