@@ -1,8 +1,8 @@
 # Peaceful World — GitHub Sponsors profile source
 
-> **Status:** Approved direction / content prepared for the GitHub Sponsors dashboard. **This file is NOT automatically displayed on the GitHub Sponsors page.** The public profile, goals, and tiers require separate GitHub Sponsors settings. Maintained as a reusable, version-controlled source.
+> **Status:** GitHub Sponsors profile reported **published** by ChatGPT Work on 21 October 2026. Four monthly tiers, the 25-sponsor goal, the profile introduction, and three featured public repositories were reported live. The GitHub repository connector cannot independently inspect Sponsors Dashboard fields. **This file is a version-controlled content and launch record, not the live Sponsors page.**
 >
-> Target account: `peaceful-world-org`. Updated: 20 October 2026.
+> Target account: `peaceful-world-org`. Updated: 21 October 2026.
 
 ## Profile details → Short bio
 
@@ -33,7 +33,7 @@ We publish our priorities and contribution opportunities through a [public roadm
 
 **Peaceful World by Peaceful Means.**
 
-[Website](https://peaceful-world.org/) · [Projects](https://github.com/peaceful-world-org/.github/blob/main/PROJECTS.md) · [Volunteer](https://github.com/peaceful-world-org/.github/blob/main/VOLUNTEER.md) · [Other ways to help](https://peaceful-world.org/help/)
+[Website](https://peaceful-world.org/) · [Projects](https://github.com/peaceful-world-org/.github/blob/main/PROJECTS.md) · [Volunteer](https://github.com/peaceful-world-org/.github/blob/main/VOLUNTEER.md) · [Other ways to help](https://peaceful-world.org/help)
 
 ## Your goals → First goal
 
@@ -48,7 +48,7 @@ Do not claim that this number is an existing achievement; it is a target.
 
 ## Sponsor tiers → Monthly tiers (USD)
 
-GitHub Sponsors tiers must be configured and published individually in the Sponsors Dashboard. These entries are suggested voluntary contributions, **not purchases of personal services**.
+GitHub Sponsors tiers must be configured and published individually in the Sponsors Dashboard. The four monthly contribution levels below were reported published on 21 October 2026; they are **not purchases of personal services**.
 
 | Amount | Tier title / first line of description | Description |
 | ---: | --- | --- |
@@ -75,19 +75,24 @@ No exclusive content, legal tax-deduction guarantees, publication schedule, dire
 
 Do not add private source repositories or represent preview/runtime repositories as fully open-source projects.
 
-## Publication checklist
+## Launch record (reported from the completed ChatGPT Work session, 21 October 2026)
 
-- [ ] Open https://github.com/sponsors/peaceful-world-org/dashboard in an authenticated browser.
-- [ ] Profile details: paste Short bio and Introduction, then Update profile.
-- [ ] Featured work: select only the three verified public repositories above.
-- [ ] Sponsor tiers: create, review and publish four USD monthly tiers; retain custom amounts.
-- [ ] Your goals: publish the first goal of 25 recurring sponsors.
-- [ ] Review the actual public page: https://github.com/sponsors/peaceful-world-org.
-- [ ] Confirm the published public view, recurring/one-time selector and payout status separately.
+- [x] Short bio and full English Introduction published.
+- [x] Four monthly tiers published: $5, $15, $50, $100.
+- [x] Public goal: 25 recurring sponsors (reported initial progress 0%).
+- [x] Featured public repositories: `.github`, `5-preview`, `true-cost-of-war-assets`.
+- [x] Welcome messages, Markdown, custom amounts and Monthly/One-time controls checked in the Work session.
+- [x] Canonical working support-page link corrected to `https://peaceful-world.org/help`.
+- [ ] Verify the public profile on a narrow mobile viewport (not confirmed by Work).
+- [ ] Separately confirm actual Stripe Connect payout readiness, if needed; no payment or test sponsorship was performed.
+
+**Public page:** https://github.com/sponsors/peaceful-world-org
+
+These are results **reported by the authorized Work session**, not independently retrieved by the repository integration.
 
 ## Payment and account boundaries
 
-- Do not alter existing Stripe payment links on https://peaceful-world.org/help/.
+- Do not alter existing Stripe payment links on https://peaceful-world.org/help.
 - Do not change Wise payout details.
 - Do not merge or create Stripe accounts as part of this profile-content task.
 - A GitHub repository commit to this file does **not** edit the separately hosted Sponsors Dashboard.
