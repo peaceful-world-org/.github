@@ -1,5 +1,5 @@
 schema_version: 1
-last_updated: "2026-09-28"
+last_updated: "2026-10-31"
 
 principles:
   technical_source_of_truth: github
@@ -14,6 +14,7 @@ statuses:
   planned: "Approved direction, not yet implemented."
   evaluate: "Worth testing before adoption."
   avoid: "Duplicates an existing system or does not fit current scale."
+  legacy: "No longer in the production path; historical/rollback material only if accessible."
 
 services:
   github:
@@ -26,6 +27,8 @@ services:
       - qa
       - pages_where_appropriate
     nonprofit_benefit: secured
+    enterprise_cloud: active
+    enterprise_discount: "Nonprofit discount recorded; verify actual billing application independently."
     criticality: critical
 
   google_workspace:
@@ -54,13 +57,17 @@ services:
 
   claude:
     status: active
-    category: ai_research
+    category: ai_research_and_funding
     role:
-      - independent_review
+      - independent_read_only_code_review_on_demand
+      - nonprofit_funder_and_grant_research
+      - grant_application_drafts
       - long_context_critique
       - cross_model_validation
-    nonprofit_benefit: secured
-    criticality: medium
+    nonprofit_benefit: "Claude Team for Nonprofits"
+    funding_project: "Peaceful World - Funding & Partnerships (private; connected knowledge)"
+    automation_policy: "Pilot first; do not duplicate ChatGPT funding monitoring or enable paid APIs without owner approval."
+    criticality: high
 
   canva:
     status: active
@@ -71,20 +78,34 @@ services:
     nonprofit_benefit: secured
     criticality: low
 
-  tilda:
+  github_pages_website:
     status: active
     category: web_delivery
-    lifecycle: legacy_transition
+    source_repository: peaceful-world-org/website-lab
+    generated_production_repository: peaceful-world-org/peaceful-world.org
+    canonical_domain: peaceful-world.org
+    cutover_date: "2026-10-05"
     role:
-      - current_public_site_shell
-      - indexed_pages
-      - selected_forms
-    direction: "Keep stable while new work becomes GitHub-first; remove only through controlled migration."
-    criticality: high
+      - production_static_site
+      - approved_release_gates
+      - searchable_bilingual_pages
+    rule: "Use website-lab AGENTS.md and Release Architecture v2 for current deployment authority."
+    criticality: critical
+
+  tilda:
+    status: legacy
+    category: historical_web_delivery
+    lifecycle: retired_from_production
+    role:
+      - historical_site_reference
+      - rollback_material_if_still_accessible
+    direction: "Not production since 2026-10-05. Do not depend on Tilda, renew, restore, or retire its historical materials without a separate owner decision."
+    criticality: low
 
   cloudflare:
     status: evaluate
     category: edge_delivery
+    rule: "Not the current production host; do not modify live DNS or routing without explicit approval."
     role:
       - git_based_production_delivery
       - preview_deployments
@@ -104,8 +125,9 @@ services:
     criticality: medium
 
   new_relic:
-    status: planned
+    status: available
     category: observability
+    activation_note: "Nonprofit program approved and order signed; actual active capabilities, location terms and charge safeguards still require confirmation."
     role:
       - uptime
       - frontend_errors
@@ -134,7 +156,7 @@ services:
       - storage_if_needed
       - scheduled_jobs_if_needed
       - api_or_ai_compute_if_needed
-    nonprofit_benefit: "USD 2000 credits/year offer"
+    nonprofit_benefit: "USD 2000 credits/year offer; activation and spend safeguards not verified."
     rule: "Do not migrate workloads merely to spend credits."
     criticality: low
 
@@ -146,6 +168,7 @@ services:
       - partnerships
       - followups
       - operational_tracking
+      - funding_opportunities_pipeline
     criticality: medium
 
   mailerlite:
