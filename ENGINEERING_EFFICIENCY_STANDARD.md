@@ -26,6 +26,12 @@ Do not claim verified account-level billing savings without actual billing/usage
 
 The detailed website implementation policy remains in website-lab/docs/AI_MODEL_EFFICIENCY_POLICY.md.
 
+## Live website preview deliverables (mandatory)
+
+For any Peaceful World website creation or redesign task, **the deliverable for owner review is a verified live GitHub Pages staging URL**, not a downloadable HTML file, ZIP, local browser screenshot or GitHub code view. Use the existing `website-lab` preview-only PR → merge → Pages pipeline, keep staging `noindex,nofollow`, and check the served link before presenting it. Reuse the same preview route for rapid iterations. Do not deploy feature branches directly to GitHub Pages or create another hosting service. A staging merge must not trigger a `peaceful-world.org` production release; that remains separately owner-gated.
+
+Avoid expensive repeated full reviews for routine page work: make a bounded edit, run relevant QA, confirm staging, obtain the owner's release decision and ship the approved canonical version. See [AI Agent Operating Model](AI_AGENT_OPERATING_MODEL_V1.md) and `website-lab/AGENTS.md`.
+
 ## CI / GitHub Actions default
 
 - Prefer short, deterministic source or contract checks on PRs and **surface-scoped** tests when the touched surface is known.
