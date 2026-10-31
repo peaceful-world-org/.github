@@ -25,6 +25,20 @@ Make complex digital products possible with a small human team, while retaining 
 
 These are **candidate assignments**, not claims that any named vendor is objectively best. Evaluate on representative tasks before defaulting to a model. Do not grant one agent sole authority to evaluate and approve its own significant change. Gemini's localization proposals always require independent factual and meaning checks, especially for historical, statistical and peace/war-related claims.
 
+## Live preview delivery standard (owner rule, 2026-10-31)
+
+**This rule is mandatory for all Peaceful World website visual work, including ChatGPT, Claude, Codex, Work and future agents.**
+
+- A local HTML file, ZIP, screenshot, PR artifact or code link is **not** an acceptable substitute for a live review URL when a page or visual change is requested.
+- For `peaceful-world.org`, implement inside `peaceful-world-org/website-lab` and reuse its active Design System and canonical shell where relevant. Use a dedicated `*-preview/` staging route with `noindex,nofollow`.
+- Follow the existing workflow: **branch → small PR → scoped checks → preview-only merge to `website-lab/main` → automated `website-lab` GitHub Pages deployment → verify served EN/RU URLs → give the owner the actual clickable GitHub Pages links**.
+- Do **not** claim a preview is ready until the Pages deployment succeeded and the URLs were fetched or browser-tested. Do not make the owner run commands, download HTML or search GitHub for the page.
+- Iterate quickly on that **same live preview**, not a new off-platform copy. Do not create branch-specific Pages deployments, duplicate hosting or new paid preview infrastructure.
+- Production is a **separate** step: after the owner approves, integrate canonical shared header/footer, SEO, language routes and QA, then use the repository's owner-gated production Release v2. A staging merge alone never authorizes production.
+- Optimize for a small, useful first release and incremental follow-ups; do not hold an ordinary page hostage to redundant councils or speculative improvements. Safety, privacy, accessibility, accuracy and release gates remain mandatory.
+
+This policy adds specificity to `website-lab/AGENTS.md`; repository-specific publication controls take precedence.
+
 ## Standard task flow
 
 `idea → scoped Issue/brief → isolated branch → PR → deterministic QA → independent review if needed → staging preview → owner decision → production release → live monitoring`.
