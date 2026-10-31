@@ -4,24 +4,25 @@ This is a living, intentionally high-level view of what Peaceful World is buildi
 
 The roadmap shows **direction**. Public GitHub Issues show **concrete work**. Our Public Ledger records **what actually happened**.
 
+Status reviewed: **31 October 2026**. Product releases and submission decisions remain governed by the relevant repository's current instructions and evidence; this roadmap is not itself a release authorization.
+
 ## Now
 
 ### 5 Practice
 [Public tracking issue #10](https://github.com/peaceful-world-org/.github/issues/10)
 
-- harden the web and mobile experience;
-- improve localization and accessibility;
+- maintain the live web/PWA experience and Android distribution, with careful privacy and regression QA;
+- continue improving localization, accessibility, and practical education content;
 - make analytics useful without turning the practice into a surveillance product;
-- complete Android release work;
-- keep iOS infrastructure ready while Apple development is paused.
+- progress the iOS App Review process: corrected build 185803 was resubmitted in October 2026; public App Store release remains manual and requires separate owner approval.
 
 ### Peaceful World website and infrastructure
 [Public tracking issue #13](https://github.com/peaceful-world-org/.github/issues/13)
 
-- stabilize the new GitHub-backed Home and core public page architecture;
-- keep bilingual routing, SEO metadata and post-release QA reliable;
-- improve maintainability, accessibility, performance and transparency;
-- reduce fragile manual publishing steps while preserving the public Tilda experience.
+- maintain GitHub Pages production after the completed 5 October 2026 cutover from Tilda;
+- keep website-lab as the source/QA/staging repository and peaceful-world.org as the generated production repository;
+- maintain owner-approved release gates, bilingual routing, SEO metadata, accessibility, privacy and post-release QA;
+- treat Tilda as historical/rollback reference only, not an active hosting or publishing dependency.
 
 ### Public GitHub and open collaboration
 [Public tracking issue #15](https://github.com/peaceful-world-org/.github/issues/15)
